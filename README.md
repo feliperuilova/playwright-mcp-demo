@@ -8,7 +8,7 @@ Template project with the [Playwright MCP](https://github.com/microsoft/playwrig
 npm install
 ```
 
-Run this before the first Claude Code session. It installs the pinned `@playwright/mcp` version from `package.json` into `node_modules`.
+Run this before the first Claude Code session. It installs the pinned `@playwright/mcp` and `@playwright/test` versions from `package.json` into `node_modules`.
 
 ## How it works
 
@@ -64,10 +64,34 @@ Paths on other platforms:
 
 Restart Claude Code after changing `.mcp.json`.
 
-## Updating Playwright MCP
+## Tests
+
+The project uses [Playwright Test](https://playwright.dev/docs/intro). Tests live in `tests/` and run in the system Google Chrome, the same browser the MCP server uses.
 
 ```bash
-npm i -D @playwright/mcp@<version>
+npm test                                   # run all tests
+npx playwright test tests/example.spec.ts  # run one file
+npx playwright test --headed               # watch the browser
+npx playwright test --ui                   # interactive UI mode
+npx playwright show-report                 # open the last HTML report
 ```
 
-Restart Claude Code afterwards to pick up the new version.
+`playwright.config.ts` sets this up:
+
+- `testDir: './tests'`, tests run in parallel.
+- One project, `chrome`, with `channel: 'chrome'`.
+- On CI (`CI` env var set): 2 retries, 1 worker, and `test.only` fails the run.
+- A trace is recorded on the first retry of a failed test. Open it with `npx playwright show-trace <path>`.
+
+Results go to `test-results/` and `playwright-report/`. Both are in `.gitignore`.
+
+`@playwright/test` and the MCP server each bring their own Playwright version (`npm ls playwright` shows both). That's expected, they don't conflict.
+
+## Updating Playwright
+
+```bash
+npm i -D -E @playwright/mcp@<version>    # MCP server
+npm i -D -E @playwright/test@<version>   # test runner
+```
+
+Restart Claude Code after updating the MCP server to pick up the new version.

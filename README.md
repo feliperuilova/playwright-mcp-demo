@@ -16,6 +16,18 @@ Run this before the first Claude Code session. It installs the pinned `@playwrig
 - The server runs from the local install: `npx playwright-mcp --browser chrome`. `npx` resolves the binary from `node_modules/.bin`, so it doesn't download anything at startup.
 - `--browser chrome` drives your installed Google Chrome. Chrome must be installed.
 
+## Codex
+
+Codex doesn't read `.mcp.json`. Register the server with the Codex CLI:
+
+```bash
+codex mcp add playwright -- npx -y @playwright/mcp@latest --browser chrome
+```
+
+This writes the server to `~/.codex/config.toml`, so it's available in every project, not just this one. Check it with `codex mcp list`, then restart Codex.
+
+`@latest` downloads the newest `@playwright/mcp` from npm, not the version pinned in `package.json`. Claude Code and Codex can end up on different server versions.
+
 ## Browsers
 
 Neither `npm install` nor the MCP server downloads a browser. With `--browser chrome`, the server launches the Google Chrome already installed on your machine (on macOS: `/Applications/Google Chrome.app`).

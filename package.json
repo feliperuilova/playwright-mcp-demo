@@ -4,10 +4,12 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "test": "playwright test"
   },
   "devDependencies": {
     "@playwright/mcp": "0.0.85",
+    "@playwright/test": "1.65.1",
     "typescript": "^6.0.3"
   },
   "private": true

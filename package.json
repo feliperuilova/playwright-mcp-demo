@@ -1,0 +1,14 @@
+{
+  "name": "playwright-mcp-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@playwright/mcp": "0.0.85",
+    "typescript": "^6.0.3"
+  },
+  "private": true
+}
